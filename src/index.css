@@ -18,6 +18,8 @@
   --animate-fade-in-delay-3: fade-in 0.7s ease-out 0.6s forwards;
   --animate-fade-in-delay-4: fade-in 0.7s ease-out 0.8s forwards;
   --animate-meteor: meteor 5s linear infinite;
+  --animate-mist: mist 8s ease-in-out infinite;
+  --animate-tree-sway: tree-sway 4s ease-in-out infinite;
 
   @keyframes float {
     0%,
@@ -60,19 +62,41 @@
       opacity: 0;
     }
   }
+  @keyframes mist {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+  @keyframes tree-sway {
+    0%,
+    100% {
+      transform: rotate(-2deg);
+    }
+    50% {
+      transform: rotate(2deg);
+    }
+  }
 }
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
+    --background: 120 30% 98%;
+    --foreground: 120 10% 10%;
 
     --card: 0 0% 100%;
 
-    --primary: 250 47% 60%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 120 47% 60%;
+    --primary-foreground: 120 40% 98%;
 
-    --border: 214 32% 91%;
+    --border: 120 32% 91%;
   }
 
   .dark {
@@ -97,7 +121,9 @@
 
   body {
     @apply bg-background text-foreground transition-colors duration-300;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 }
 
@@ -152,6 +178,16 @@
 @utility meteor {
   @apply absolute bg-linear-to-r from-white via-white to-transparent rounded-full;
   box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
+}
+
+@utility mist {
+  @apply absolute bg-white/10 rounded-full blur-xl;
+  animation: var(--animate-mist);
+}
+
+@utility tree {
+  @apply absolute bottom-0;
+  animation: var(--animate-tree-sway);
 }
 
 #root {

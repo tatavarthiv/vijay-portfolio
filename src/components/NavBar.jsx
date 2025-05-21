@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = [
   { name: "Home", href: "#hero" },
@@ -46,26 +47,31 @@ export const NavBar = () => {
         </a>
 
         {/* desktop nav */}
-        <div className="hidden md:flex space-x-8">
-          {navItems.map((item, key) => (
-            <a
-              key={key}
-              href={item.href}
-              className="text-foreground/80 hover:text-primary transition-colors duration-300"
-            >
-              {item.name}
-            </a>
-          ))}
+        <div className="hidden md:flex items-center">
+          <div className="flex space-x-8">
+            {navItems.map((item, key) => (
+              <a
+                key={key}
+                href={item.href}
+                className="text-foreground/80 hover:text-primary transition-colors duration-300"
+              >
+                {item.name}
+              </a>
+            ))}
+          </div>
+          <ThemeToggle />
         </div>
 
         {/* mobile nav */}
-        <button
-          onClick={() => setIsMenuOpen((prev) => !prev)}
-          className="md:hidden p-2 text-foreground z-50"
-        >
-          {" "}
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="flex items-center space-x-4 md:hidden">
+          <ThemeToggle />
+          <button
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            className="p-2 text-foreground z-50"
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
 
         <div
           className={cn(

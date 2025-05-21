@@ -1,47 +1,40 @@
 import { useEffect } from "react";
-import { Sun, Moon } from "lucide-react";
+import { Moon, Trees } from "lucide-react";
 import { useState } from "react";
 import { cn } from "../lib/utils";
 
 export const ThemeToggle = () => {
-  const [isDarkMode, setisDarkMode] = useState(false);
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-    const theme = localStorage.getItem("theme");
-    if (theme === "dark") {
-      setisDarkMode(true);
-      document.documentElement.classList.add("dark");
-    } else {
-      setisDarkMode(false);
-      document.documentElement.classList.remove("dark");
-    }
+    const savedTheme = localStorage.getItem("theme") || "light";
+    setTheme(savedTheme);
+    document.documentElement.classList.add(savedTheme);
   }, []);
 
   const toggleTheme = () => {
-    if (isDarkMode) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setisDarkMode(false);
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-      setisDarkMode(true);
-    }
+    const newTheme = theme === "dark" ? "light" : "dark";
+    document.documentElement.classList.remove(theme);
+    document.documentElement.classList.add(newTheme);
+    localStorage.setItem("theme", newTheme);
+    setTheme(newTheme);
   };
 
   return (
     <button
       onClick={toggleTheme}
       className={cn(
-        "fixed max-sm:hidden top-5 right-5 z-50 p-2 rounded-full transition-colors duration-300 focus:outline-hidden"
+        "hidden md:flex items-center justify-center p-2 rounded-full",
+        "transition-colors duration-300 focus:outline-hidden",
+        "hover:bg-primary/10 ml-8"
       )}
+      aria-label="Toggle theme"
     >
-      {" "}
-      {isDarkMode ? (
-        <Sun className="h-6 w-6 text-yellow-300" />
+      {theme === "dark" ? (
+        <Trees className="h-5 w-5 text-green-700" />
       ) : (
-        <Moon className="h-6 w-6 text-blue-900" />
-      )}{" "}
+        <Moon className="h-5 w-5 text-blue-700" />
+      )}
     </button>
   );
 };
